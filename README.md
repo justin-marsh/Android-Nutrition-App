@@ -3,11 +3,11 @@
 
 Group members (3-5) (no Student IDs, only names and github usernames):
 
-1. 
+1. Saawi Baloch - 
 
-2. 
+2. Justin Marsh - 
 
-3. 
+3. Thomas Chiarello - GlazedSyrup
 
 4. 
 

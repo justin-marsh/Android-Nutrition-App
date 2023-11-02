@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'signup.dart';
 
 void main() {
   runApp(const MyApp());
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
               const Padding(
                 padding: EdgeInsets.all(0.0),
                 child: Text(
-                  'Welcome to FoodFit Plus', style: TextStyle(fontSize: 29,
+                  'Welcome to FoodFit Plus', style: TextStyle(fontSize: 24,
                     fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'Montserrat',
                   ),
                 ),
@@ -70,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: EdgeInsets.only(left: 55.0, right: 55.0, top: 18.0),
                 child: Text(
                   'Discover a healthier you with FoodFit Plus. Elevate your nutrition game, track your meals, and achieve your fitness goals with our user-friendly app. Get started today!',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w300,
+                  style: TextStyle(fontSize: 1, fontWeight: FontWeight.w300,
                     color: Colors.white, fontFamily: 'Montserrat',
                   ),
                   textAlign: TextAlign.center,
@@ -85,7 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 60,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Add button's functionality here
+                      // Navigate to the sign-up page when the button is pressed
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,

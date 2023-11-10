@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'main.dart';
 
 void main() {
@@ -11,19 +11,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SignUpPage(),
+      home: SignInPage(),
     );
   }
 }
 
-class SignUpPage extends StatelessWidget {
+class SignInPage extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final usernameController = TextEditingController();
-  final passwordVerifyController = TextEditingController();
 
-  void signUp() async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+  void signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
     );
@@ -92,7 +90,7 @@ class SignUpPage extends StatelessWidget {
                       children: <Widget>[
                         Image.asset('assets/logo.png', height: 250),
                         const Text(
-                          'Sign Up',
+                          'Sign In',
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Color(0xFFF96343),
@@ -105,17 +103,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: RoundedInputField(
-                      hintText: "Username",
-                      icon: Icons.person,
-                      controller: usernameController,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
+
                 Center(
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
@@ -139,24 +127,13 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: RoundedInputField(
-                      hintText: "Confirm Password",
-                      icon: Icons.lock,
-                      obscureText: true,
-                      controller: passwordVerifyController,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
+
                 RoundedButton(
-                  text: "Sign Up",
+                  text: "Sign In",
                   press: () {
                     if (emailController.text.isNotEmpty &&
                         passwordController.text.length > 6) {
-                      signUp();
+                      signIn();
                     } else {
                       debugPrint('LOG : Email is empty or invalid');
                     }

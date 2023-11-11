@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'signup.dart';
-import 'signin.dart'; // Assuming you have a SignInPage
+import 'pages/signup.dart';
+import 'pages/signin.dart'; // Assuming you have a SignInPage
 import 'package:firebase_core/firebase_core.dart';
+import 'components/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform, //resolves flutter api outdated errors, makes app more stable
+  );
   runApp(const MyApp());
 }
 

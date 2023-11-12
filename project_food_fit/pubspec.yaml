@@ -65,6 +65,11 @@ flutter:
   assets:
     - assets/logo.png
     - assets/profile.png
+    - assets/breakfast.png
+    - assets/lunch.jpg
+    - assets/dinner.jpg
+    - assets/snack.png
+    
   fonts:
     - family: Montserrat
       fonts:

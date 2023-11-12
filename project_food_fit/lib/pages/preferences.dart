@@ -71,6 +71,10 @@ class _PreferencesPageState extends State<PreferencesPage> {
     super.dispose();
   }
 
+  void _goBack() {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -88,8 +92,13 @@ class _PreferencesPageState extends State<PreferencesPage> {
           child: Column(
             children: [
               SizedBox(height: 60),
-              const Center(
-                child: Padding(
+          Row(
+              children: [
+          IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: _goBack,
+        ),
+        Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
                     "Edit Preferences",
@@ -100,7 +109,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                     ),
                   ),
                 ),
-              ),
+              ],),
               const Divider(
                 color: Colors.grey,
                 thickness: 2.0,

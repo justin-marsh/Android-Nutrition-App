@@ -167,6 +167,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Positioned(
             top: 250, // Adjusted top margin to align with the logo
             left: 20,
+
             child: Container(
               width: 50,
               height: 50,
@@ -178,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus',)),
+                    MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus')),
                   );
                 },
                 child: Icon(

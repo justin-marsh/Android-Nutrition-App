@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:project_food_fit/pages/profile.dart';
 import '../main.dart';
 
 class SignUpPage extends StatefulWidget{
@@ -35,6 +36,12 @@ class _SignUpPageState extends State<SignUpPage> {
       );
       // pop the loading circle
       Navigator.pop(context);
+
+      // Navigate to the profile page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfilePage()),
+      );
       if(usernameController.text == null){
         usernameNullMessage();
       }

@@ -1,11 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project_food_fit/main.dart';
 import 'preferences.dart';
+
 
 void main() {
   runApp(ProfilePage());
 }
 
 class ProfilePage extends StatelessWidget {
+
+  final user = FirebaseAuth.instance.currentUser!;
+
+  // sign user out method
+  void signUserOut(BuildContext context) {
+    FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyHomePage(title: 'FoodFit Plus'),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -85,7 +103,9 @@ class ProfilePage extends StatelessWidget {
                         SizedBox(height: 40.0), // Add spacing between rows
                         _buildIconWithText(Color(0xFFFF785B), Icons.library_books, 'Terms and privacy policy'),
                         SizedBox(height: 40.0), // Add spacing between rows
-                        _buildIconWithText(Color(0xFFFF785B), Icons.exit_to_app, 'Logout'),
+                        _buildIconWithText(Color(0xFFFF785B), Icons.exit_to_app, 'Logout', () {
+                          signUserOut(context);
+                        }),
                       ],
                     ),
                   ),

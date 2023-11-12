@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'profile.dart';
 import '../main.dart';
 
@@ -34,13 +33,13 @@ class _SignInPageState extends State<SignInPage> {
       );
       // pop the loading circle
       Navigator.pop(context);
-      
+
       // Navigate to the profile page
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ProfilePage()),
       );
-      
+
     } on FirebaseAuthException catch (e) {
       // pop the loading circle
       Navigator.pop(context);
@@ -101,115 +100,120 @@ class _SignInPageState extends State<SignInPage> {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 200,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 800,
-              decoration: BoxDecoration(
-                color: boxColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top: 300,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                  ),
                 ),
               ),
             ),
-          ),
 
-          // New button in the top left corner
-          Positioned(
-            top: 250, // Adjusted top margin to align with the logo
-            left: 20,
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus',)),
-                  );
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
 
-          Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(0.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('assets/logo.png', height: 250),
-                        const Text(
-                          'Sign In',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFFF96343),
-                            fontSize: 24,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                        SizedBox(height: 30),
-                      ],
-                    ),
-                  ),
+            // New button in the top left corner
+            Positioned(
+              top: 250,
+              left: 20,
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25),
                 ),
-
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: RoundedInputField(
-                      hintText: "Email",
-                      icon: Icons.email,
-                      controller: emailController,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: RoundedInputField(
-                      hintText: "Password",
-                      icon: Icons.lock,
-                      obscureText: true,
-                      controller: passwordController,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-
-                RoundedButton(
-                  text: "Sign In",
-                  press: () {
-                    if (emailController.text.isNotEmpty &&
-                        passwordController.text.length > 6) {
-                      signIn();
-                    } else {
-                      debugPrint('LOG : Email is empty or invalid');
-                    }
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus',)),
+                    );
                   },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+
+            //add logo and Sign In header
+            Container(
+              padding: EdgeInsets.all(40.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(30.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Image.asset('assets/logo.png', height: 250),
+                          const Text(
+                            'Sign In',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFFF96343),
+                              fontSize: 24,
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                          SizedBox(height: 40),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  //email text field
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: RoundedInputField(
+                        hintText: "Email",
+                        icon: Icons.email,
+                        controller: emailController,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  //password text field
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: RoundedInputField(
+                        hintText: "Password",
+                        icon: Icons.lock,
+                        obscureText: true,
+                        controller: passwordController,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 40),
+
+                  //sign in button
+                  RoundedButton(
+                    text: "Sign In",
+                    press: () {
+                      if (emailController.text.isNotEmpty &&
+                          passwordController.text.length > 6) {
+                        signIn();
+                      } else {
+                        debugPrint('LOG : Email is empty or invalid');
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -277,11 +281,13 @@ class RoundedButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.0),
           ),
         ),
+
         onPressed: press,
         child: Text(
           text,
           style: TextStyle(color: Colors.white),
         ),
+
       ),
     );
   }

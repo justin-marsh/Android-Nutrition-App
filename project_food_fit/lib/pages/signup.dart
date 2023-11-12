@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project_food_fit/pages/profile.dart';
 import '../main.dart';
@@ -175,6 +174,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Positioned(
             top: 250, // Adjusted top margin to align with the logo
             left: 20,
+
             child: Container(
               width: 50,
               height: 50,
@@ -186,7 +186,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus',)),
+                    MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus')),
                   );
                 },
                 child: Icon(

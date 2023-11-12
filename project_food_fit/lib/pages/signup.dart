@@ -171,10 +171,10 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
 
           // New button in the top left corner
-          // New button in the top left corner
           Positioned(
-            top: 250,
+            top: 250, // Adjusted top margin to align with the logo
             left: 20,
+
             child: Container(
               width: 50,
               height: 50,
@@ -184,7 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus')),
                   );
@@ -196,7 +196,6 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
-
 
           Container(
             padding: EdgeInsets.all(20.0),

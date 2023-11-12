@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_food_fit/pages/profile.dart';
 
 void main() {
   runApp(PreferencesPage());
@@ -80,13 +81,17 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   }
 
   void _goBack() {
-    Navigator.of(context).pop();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ProfilePage()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+
       body: SingleChildScrollView(
         child: Container(
           decoration: const BoxDecoration(

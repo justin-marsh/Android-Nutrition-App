@@ -119,39 +119,16 @@ class _SignInPageState extends State<SignInPage> {
 
 
             // New button in the top left corner
-            Positioned(
-              top: 250,
-              left: 20,
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus',)),
-                    );
-                  },
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
+
 
             //add logo and Sign In header
             Container(
-              padding: EdgeInsets.all(40.0),
+              padding: EdgeInsets.all(17.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(30.0),
+                    padding: EdgeInsets.all(15.0),
                     child: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
@@ -170,11 +147,34 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                   ),
+                  Positioned(
+                    top: 100,
 
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus',)),
+                          );
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
                   //email text field
                   Center(
                     child: Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.all(25.0),
                       child: RoundedInputField(
                         hintText: "Email",
                         icon: Icons.email,

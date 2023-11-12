@@ -154,55 +154,14 @@ class _SignUpPageState extends State<SignUpPage> {
       backgroundColor: backgroundColor,
       body: Stack(
         children: <Widget>[
-          Positioned(
-            top: 200,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 800,
-              decoration: BoxDecoration(
-                color: boxColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-              ),
-            ),
-          ),
-
-          // New button in the top left corner
-          Positioned(
-            top: 250, // Adjusted top margin to align with the logo
-            left: 20,
-
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus')),
-                  );
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
 
           Container(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+
                   Container(
                     padding: EdgeInsets.all(0.0),
                     child: SingleChildScrollView(
@@ -220,6 +179,29 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           SizedBox(height: 30),
                         ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 30,
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyHomePage(title: 'FoodFit Plus')),
+                          );
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),

@@ -4,12 +4,21 @@ void main() {
   runApp(PreferencesPage());
 }
 
-class PreferencesPage extends StatefulWidget {
+class PreferencesPage extends StatelessWidget {
   @override
-  _PreferencesPageState createState() => _PreferencesPageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: PreferencesScreen(),
+    );
+  }
 }
 
-class _PreferencesPageState extends State<PreferencesPage> {
+class PreferencesScreen extends StatefulWidget {
+  @override
+  _PreferencesScreenState createState() => _PreferencesScreenState();
+}
+
+class _PreferencesScreenState extends State<PreferencesScreen> {
   Map<String, bool?> buttonStates = {
     "Gluten": false,
     "Dairy": false,
@@ -22,6 +31,8 @@ class _PreferencesPageState extends State<PreferencesPage> {
     "Tree nuts": false,
   };
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController calorieController = TextEditingController();
+  TextEditingController stepController = TextEditingController();
 
   void toggleButtonState(String key) {
     setState(() {
@@ -52,8 +63,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
       ),
     );
   }
-  TextEditingController calorieController = TextEditingController();
-  TextEditingController stepController = TextEditingController();
 
   void showSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -62,7 +71,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
       ),
     );
   }
-
 
   @override
   void dispose() {
@@ -77,10 +85,10 @@ class _PreferencesPageState extends State<PreferencesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        key: _scaffoldKey,
-        body: Container(
+    return Scaffold(
+      key: _scaffoldKey,
+      body: SingleChildScrollView(
+        child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -109,230 +117,147 @@ class _PreferencesPageState extends State<PreferencesPage> {
                       ),
                     ),
                   ),
-                ],),
+                ],
+              ),
               const Divider(
                 color: Colors.grey,
                 thickness: 2.0,
                 indent: 40,
                 endIndent: 40,
               ),
-              Container(
-                padding: EdgeInsets.only(left: 20.0, top: 10.0),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  "Allergies",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              SizedBox(height: 0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildElevatedButton("Gluten"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Dairy"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Egg"),
-                ],
-              ),
-              SizedBox(height: 0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildElevatedButton("Soy"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Peanut"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Wheat"),
-                ],
-              ),
-              SizedBox(height: 0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildElevatedButton("Milk"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Fish"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Tree nuts"),
-                ],
-              ),
-              SizedBox(height: 0),
-              Container(
-                padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  "Diet",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              SizedBox(height: 0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildElevatedButton("Vegan"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Paleo"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Vegetarian"),
-                ],
-              ),
-              SizedBox(height: 0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildElevatedButton("Halal"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Kosher"),
-                  SizedBox(width: 10),
-                  buildElevatedButton("Keto"),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  "Goals",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-
-              Container(
-                margin: EdgeInsets.all(20.0),
-                padding: EdgeInsets.only(left:10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey, width: 2.0),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    const Text(
-                      "Daily Calorie Intake:",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: TextField(
-                        controller: calorieController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Enter calories',
-                          hintStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                          ),
-                        ),
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left:20.0, right:20.0),
-                padding: EdgeInsets.only(left:10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey, width: 2.0),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    const Text(
-                      "Daily Steps:",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: TextField(
-                        controller: stepController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Enter steps',
-                          hintStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                          ),
-                        ),
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    showSnackbar("Preferences saved!");
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFFF785B),
-                    onPrimary: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    minimumSize: Size(200, 40),
-                  ),
-                  child: const Text(
-                    "Save",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ),
+              buildSectionHeader("Allergies"),
+              buildButtonRow(["Gluten", "Dairy", "Egg"]),
+              buildButtonRow(["Soy", "Peanut", "Wheat"]),
+              buildButtonRow(["Milk", "Fish", "Tree nuts"]),
+              buildSectionHeader("Diet"),
+              buildButtonRow(["Vegan", "Paleo", "Vegetarian"]),
+              buildButtonRow(["Halal", "Kosher", "Keto"]),
+              buildSectionHeader("Goals"),
+              buildTextFieldRow("Daily Calorie Intake:", calorieController, "Enter calories"),
+              buildTextFieldRow("Daily Steps:", stepController, "Enter steps"),
+              buildSaveButton(),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, color: Colors.grey),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search, color: Colors.grey),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add, color: Colors.grey),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite, color: Colors.grey),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, color: Colors.grey),
+            label: '',
+          ),
+        ],
+      ),
+    );
+  }
 
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.grey),
-              label: '', // Empty label
+  Widget buildSectionHeader(String title) {
+    return Container(
+      padding: EdgeInsets.only(left: 20.0, top: 10.0),
+      alignment: Alignment.centerLeft,
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 20,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+
+  Widget buildButtonRow(List<String> buttons) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: buttons
+          .map((text) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: buildElevatedButton(text),
+      ))
+          .toList(),
+    );
+  }
+
+  Widget buildTextFieldRow(String label, TextEditingController controller, String hintText) {
+    return Container(
+      margin: EdgeInsets.all(20.0),
+      padding: EdgeInsets.only(left: 10.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.grey, width: 2.0),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.grey,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: Colors.grey),
-              label: '', // Empty label
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: hintText,
+                hintStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
+              ),
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 14,
+              ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add, color: Colors.grey),
-              label: '', // Empty label
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Colors.grey),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person, color: Colors.grey),
-              label: '',
-            ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSaveButton() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20.0),
+      child: ElevatedButton(
+        onPressed: () {
+          showSnackbar("Preferences saved!");
+        },
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xFFFF785B),
+          onPrimary: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          minimumSize: Size(200, 40),
+        ),
+        child: const Text(
+          "Save",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
         ),
       ),
     );
   }
 }
+

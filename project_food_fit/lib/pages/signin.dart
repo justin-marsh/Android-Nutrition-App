@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'pages/home.dart';
 import 'profile.dart';
 import '../main.dart';
 
@@ -37,7 +38,7 @@ class _SignInPageState extends State<SignInPage> {
       // Navigate to the profile page
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ProfilePage()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
 
     } on FirebaseAuthException catch (e) {

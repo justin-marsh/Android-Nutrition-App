@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_food_fit/main.dart';
 import 'preferences.dart';
+import 'home.dart';
 
 
 void main() {
@@ -116,12 +117,20 @@ class ProfilePage extends StatelessWidget {
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white, // Set the background color to white
-          selectedFontSize: 0, // Adjust font size for labels
-          unselectedFontSize: 0, // Adjust font size for labels
+          backgroundColor: Colors.white, 
+          selectedFontSize: 0, 
+          unselectedFontSize: 0, 
           items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
+          BottomNavigationBarItem(
+            icon: IconButton(
               icon: Icon(Icons.home, color: Colors.grey),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+            ),
               label: '', // Empty label
             ),
             BottomNavigationBarItem(
@@ -129,7 +138,7 @@ class ProfilePage extends StatelessWidget {
               label: '', // Empty label
             ),
             BottomNavigationBarItem(
-              icon: CustomPlusIcon(), // Use the custom plus icon
+              icon: CustomPlusIcon(), 
               label: '', // Empty label
             ),
             BottomNavigationBarItem(
@@ -148,14 +157,14 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildIconWithText(Color iconColor, IconData icon, String text, [VoidCallback? onTap]) {
     return GestureDetector(
-      onTap: onTap, // Call the callback when the row is tapped, if provided
+      onTap: onTap, 
       child: Row(
         children: [
           Icon(
             icon,
             color: iconColor,
           ),
-          SizedBox(width: 20), // Adjust the spacing between icon and text
+          SizedBox(width: 20), 
           Expanded(
             child: Text(
               text,
@@ -176,8 +185,8 @@ class CustomPlusIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 48, // Adjust the size of the icon
-      height: 48, // Adjust the size of the icon
+      width: 48, 
+      height: 48, 
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Color(0xFFFF785B),

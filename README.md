@@ -3,7 +3,7 @@
 
 Group members (3-5) (no Student IDs, only names and github usernames):
 
-1. Saawi Baloch - 
+1. Saawi Baloch - saawibaloch13
 
 2. Justin Marsh - 
 
@@ -12,6 +12,30 @@ Group members (3-5) (no Student IDs, only names and github usernames):
 4. 
 
 5.
+
+## How to download and run the project
+Open the terminal and run these command:
+```shell
+git clone https://github.com/CSCI4100U/mobile-group-project-2023-ssj.git
+```
+```shell
+cd mobile-group-project-2023-ssj
+```
+```shell
+flutterfire config
+```
+```shell
+flutter clean
+```
+```shell
+flutter pub get
+```
+```shell
+flutter run
+```
+To login user the email and password 
+- Email: test@gmail.com
+- Password: test123
 
 ## Overview
 This group project is designed for you to demonstrate the skills that you have learned in this course.  The final project that you submit in the last week of classes will be a completed mobile application.  Non-functional requirements, especially those associated with production-readiness, will be considered extremely important when marking this project.  You are expected to work in a group of three to five students when completing this project.  Students are not permitted to work alone on the project, as this eliminates one of the learning objectives of this assessment. Peer feedback forms will be required for all three phases of the project to ensure group equity of work.

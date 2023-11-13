@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'pages/home.dart';
+import 'package:project_food_fit/pages/home.dart';
+
 import 'profile.dart';
 import '../main.dart';
 

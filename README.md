@@ -9,9 +9,9 @@ Group members (3-5) (no Student IDs, only names and github usernames):
 
 3. Thomas Chiarello - GlazedSyrup
 
-4. 
+## Current Progress
+Pages: Homepage, Profile, Signin, Signup, Recipes
 
-5.
 
 ## How to download and run the project
 Open the terminal and run these command:

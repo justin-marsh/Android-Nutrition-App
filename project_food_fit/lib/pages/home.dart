@@ -1,13 +1,57 @@
 import 'package:flutter/material.dart';
 import 'profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 void main() {
   runApp(HomePage());
 }
-
-class HomePage extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+class _HomePageState extends State<HomePage> {
+
+  late User _user;
+  late String _userName = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
+  Future<void> _initializeUser() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    _user = auth.currentUser!;
+
+    // Assuming you have a 'users' collection in Firestore
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('UserInfo')
+        .doc(_user.uid)
+        .get();
+
+    // Assuming the 'username' field exists in the user document
+    String fullName = userSnapshot['username'];
+    _userName = fullName.split(' ')[0];
+
+
+    setState(() {}); // Update the UI with the retrieved username
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _initializeUser();
     return MaterialApp(
       home: Scaffold(
         body: Stack(
@@ -58,8 +102,9 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // User greeting and activity info
-                        Text(
-                          'Hello, Alex!',
+
+                         Text(
+                          'Hello, $_userName!',
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontFamily: 'Montserrat',
@@ -67,39 +112,7 @@ class HomePage extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 20.0),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.directions_walk,
-                                color: Color(0xFFFF785B),
-                                size: 40.0,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 5.0),
-                                child: Column(
-                                  children: [
-                                    // Activity information
-                                    Text(
-                                      'Activity',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    Text(
-                                      '100 steps left',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+
                       ],
                     ),
                     Padding(
@@ -226,13 +239,16 @@ class HomePage extends StatelessWidget {
                   );
                 },
               ),
+
               label: '',
             ),
           ],
         ),
       ),
     );
+
   }
+
 }
 
 class CustomPlusIcon extends StatelessWidget {

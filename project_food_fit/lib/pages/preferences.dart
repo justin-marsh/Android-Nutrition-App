@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:project_food_fit/pages/home.dart';
 import 'package:project_food_fit/pages/profile.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(PreferencesPage());
@@ -31,10 +33,60 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     "Milk": false,
     "Fish": false,
     "Tree nuts": false,
+    "Vegan": false,
+    "Paleo": false,
+    "Vegetarian": false,
+    "Halal": false,
+    "Kosher": false,
+    "Keto": false,
   };
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController calorieController = TextEditingController();
-  TextEditingController stepController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch and update button states when the widget is initialized
+    loadUserPreferences();
+  }
+
+  Future<void> loadUserPreferences() async {
+    try {
+      String? uid = await getCurrentUserUID();
+      if (uid != null) {
+        // Fetch allergies from Firebase
+        DocumentSnapshot allergiesSnapshot = await FirebaseFirestore.instance.collection('Allergies').doc(uid).get();
+        Map<String, dynamic>? allergiesData = allergiesSnapshot.data() as Map<String, dynamic>?;
+
+        // Fetch diet preferences from Firebase
+        DocumentSnapshot dietSnapshot = await FirebaseFirestore.instance.collection('Diet').doc(uid).get();
+        Map<String, dynamic>? dietData = dietSnapshot.data() as Map<String, dynamic>?;
+
+        // Fetch calorie intakes from Firebase
+        QuerySnapshot calorieIntakesSnapshot = await FirebaseFirestore.instance.collection('UserGoals').doc(uid).collection('CalorieIntakes').get();
+
+        setState(() {
+          // Toggle button states based on fetched data
+          buttonStates.updateAll((key, value) {
+            bool fetchedValue = allergiesData != null && allergiesData.containsKey(key)
+                ? allergiesData[key]
+                : dietData != null && dietData.containsKey(key)
+                ? dietData[key]
+                : value ?? false;
+
+            return fetchedValue;
+          });
+
+          // Update calorie intakes
+
+        });
+      }
+    } catch (e) {
+      print("Error loading user preferences: $e");
+    }
+  }
+
 
   void toggleButtonState(String key) {
     setState(() {
@@ -74,11 +126,38 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    calorieController.dispose();
-    stepController.dispose();
-    super.dispose();
+  Future<void> saveUserPreferences(String uid) async {
+    // Save allergies to Firebase under 'Allergies' collection
+    await FirebaseFirestore.instance.collection('Allergies').doc(uid).set({
+      for (var entry in buttonStates.entries) if (entry.key != 'Vegan' &&
+          entry.key != 'Paleo' && entry.key != 'Vegetarian' &&
+          entry.key != 'Halal' && entry.key != 'Kosher' &&
+          entry.key != 'Keto') entry.key: entry.value,
+    });
+
+    // Save diet preferences to Firebase under 'Diet' collection
+    await FirebaseFirestore.instance.collection('Diet').doc(uid).set({
+      for (var entry in buttonStates.entries) if (entry.key == 'Vegan' ||
+          entry.key == 'Paleo' || entry.key == 'Vegetarian' ||
+          entry.key == 'Halal' || entry.key == 'Kosher' ||
+          entry.key == 'Keto') entry.key: entry.value,
+    });
+
+    // Save calorie intake to Firebase under 'UserGoals' collection
+
+
+      await FirebaseFirestore.instance.collection('UserGoals')
+          .doc(uid)
+          .collection('CalorieIntakes')
+          .add({
+        'calorie': calorieController.text,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+
+  }
+  Future<String?> getCurrentUserUID() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user?.uid;
   }
 
   void _goBack() {
@@ -92,7 +171,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-
       body: SingleChildScrollView(
         child: Container(
           decoration: const BoxDecoration(
@@ -140,55 +218,62 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               buildButtonRow(["Halal", "Kosher", "Keto"]),
               buildSectionHeader("Goals"),
               buildTextFieldRow("Daily Calorie Intake:", calorieController, "Enter calories"),
-              buildTextFieldRow("Daily Steps:", stepController, "Enter steps"),
-              buildSaveButton(),
+              buildSaveButton(() async {
+                String? uid = await getCurrentUserUID();
+                if (uid != null) {
+                  await saveUserPreferences(uid);
+                  showSnackbar("User preferences saved!");
+                } else {
+                  showSnackbar("Error: User not authenticated");
+                }
+              }),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedFontSize: 0,
-        unselectedFontSize: 0,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(Icons.home, color: Colors.grey),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
-              },
-            ),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search, color: Colors.grey),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: CustomPlusIcon(),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite, color: Colors.grey),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(Icons.person, color: Colors.grey),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()),
-                );
-              },
-            ),
-            label: '',
-          ),
-        ],
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedFontSize: 0,
+          unselectedFontSize: 0,
+          items: <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+      icon: IconButton(
+          icon: Icon(Icons.home, color: Colors.grey),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      },
+    ),
+    label: '', // Empty label
+    ),
+    BottomNavigationBarItem(
+    icon: Icon(Icons.search, color: Colors.grey),
+    label: '', // Empty label
+    ),
+    BottomNavigationBarItem(
+    icon: CustomPlusIcon(),
+    label: '', // Empty label
+    ),
+    BottomNavigationBarItem(
+    icon: Icon(Icons.favorite, color: Colors.grey),
+    label: '', // Empty label
+    ),
+    BottomNavigationBarItem(
+    icon: IconButton(
+    icon: Icon(Icons.person, color: Colors.grey),
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfilePage()),
+      );
+    },
+    ),
+      label: '',
+    ),
+          ],
       ),
     );
   }
@@ -259,13 +344,11 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     );
   }
 
-  Widget buildSaveButton() {
+  Widget buildSaveButton(VoidCallback onPressed) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20.0),
       child: ElevatedButton(
-        onPressed: () {
-          showSnackbar("Preferences saved!");
-        },
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           primary: Color(0xFFFF785B),
           onPrimary: Colors.white,

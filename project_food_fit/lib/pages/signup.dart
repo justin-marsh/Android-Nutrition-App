@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project_food_fit/pages/home.dart';
 import 'package:project_food_fit/pages/profile.dart';
 import '../main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpPage extends StatefulWidget{
   SignUpPage({super.key});
@@ -34,6 +35,15 @@ class _SignUpPageState extends State<SignUpPage> {
           email: emailController.text,
           password: passwordController.text,
       );
+
+      // Get the current user
+      User? user = FirebaseAuth.instance.currentUser;
+
+      // Create a document in "UserInfo" collection with user's UID
+      await FirebaseFirestore.instance.collection('UserInfo').doc(user?.uid).set({
+        'username': usernameController.text,
+      });
+
       // pop the loading circle
       Navigator.pop(context);
 

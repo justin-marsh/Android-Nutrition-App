@@ -29,12 +29,12 @@ class DefaultFirebaseOptions {
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -44,39 +44,42 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD2PdKMjhLDsQZXwF-Qnp9tuTjfVqwwv9I',
-    appId: '1:637905690799:web:17b30bbb335e097c6fb45a',
-    messagingSenderId: '637905690799',
-    projectId: 'authtutorial-de80c',
-    authDomain: 'authtutorial-de80c.firebaseapp.com',
-    storageBucket: 'authtutorial-de80c.appspot.com',
+    apiKey: 'AIzaSyApnsPyY-oJ0sCxtG6cIh5KRsQfs0ip5JM',
+    appId: '1:224114515547:web:39991d7b00dd63f653e97e',
+    messagingSenderId: '224114515547',
+    projectId: 'project-1b9ab',
+    authDomain: 'project-1b9ab.firebaseapp.com',
+    databaseURL: 'https://project-1b9ab-default-rtdb.firebaseio.com',
+    storageBucket: 'project-1b9ab.appspot.com',
+    measurementId: 'G-FRK7FMVBR7',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA8d-FWDmv6E0QbtoRF6ih_ilZc-1Vj08M',
-    appId: '1:637905690799:android:e8bc54bf75db03016fb45a',
-    messagingSenderId: '637905690799',
-    projectId: 'authtutorial-de80c',
-    storageBucket: 'authtutorial-de80c.appspot.com',
+    apiKey: 'AIzaSyAM91KardbEFLFSlMXS5PGny4ANb-ZhX4k',
+    appId: '1:224114515547:android:c6d85fa6df68eb9953e97e',
+    messagingSenderId: '224114515547',
+    projectId: 'project-1b9ab',
+    databaseURL: 'https://project-1b9ab-default-rtdb.firebaseio.com',
+    storageBucket: 'project-1b9ab.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyADAlJVsAlvX4yekAxgd84NuU1-ALF0Lm0',
-    appId: '1:637905690799:ios:88f47a6f5de9318a6fb45a',
-    messagingSenderId: '637905690799',
-    projectId: 'authtutorial-de80c',
-    storageBucket: 'authtutorial-de80c.appspot.com',
-    iosClientId: '637905690799-9shnm980f8q6vjk9rbq6eih4tfp1l7jg.apps.googleusercontent.com',
-    iosBundleId: 'com.example.modernlogintute',
+    apiKey: 'AIzaSyANPWChqIZ8y19sDdbNyMGvucyZqwwbez8',
+    appId: '1:224114515547:ios:d63b1a14b0bac26953e97e',
+    messagingSenderId: '224114515547',
+    projectId: 'project-1b9ab',
+    databaseURL: 'https://project-1b9ab-default-rtdb.firebaseio.com',
+    storageBucket: 'project-1b9ab.appspot.com',
+    iosBundleId: 'com.example.projectFoodFit',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyADAlJVsAlvX4yekAxgd84NuU1-ALF0Lm0',
-    appId: '1:637905690799:ios:88f47a6f5de9318a6fb45a',
-    messagingSenderId: '637905690799',
-    projectId: 'authtutorial-de80c',
-    storageBucket: 'authtutorial-de80c.appspot.com',
-    iosClientId: '637905690799-9shnm980f8q6vjk9rbq6eih4tfp1l7jg.apps.googleusercontent.com',
-    iosBundleId: 'com.example.modernlogintute',
+    apiKey: 'AIzaSyANPWChqIZ8y19sDdbNyMGvucyZqwwbez8',
+    appId: '1:224114515547:ios:b5a96ecdc25b566053e97e',
+    messagingSenderId: '224114515547',
+    projectId: 'project-1b9ab',
+    databaseURL: 'https://project-1b9ab-default-rtdb.firebaseio.com',
+    storageBucket: 'project-1b9ab.appspot.com',
+    iosBundleId: 'com.example.projectFoodFit.RunnerTests',
   );
 }

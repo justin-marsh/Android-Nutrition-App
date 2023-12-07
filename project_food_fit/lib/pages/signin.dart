@@ -48,15 +48,48 @@ class _SignInPageState extends State<SignInPage> {
       // WRONG EMAIL
       if (e.code == 'user-not-found') {
         // show error to user
-        wrongEmailMessage();
+        wrongMessage();
       }
 
       // WRONG PASSWORD
       else if (e.code == 'wrong-password') {
         // show error to user
-        wrongPasswordMessage();
+        genericErrorMessage("Incorrect email or password");
       }
     }
+  }
+  void genericErrorMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFFF96343),
+          title: Center(
+            child: Text(
+              message,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+  }
+  // wrong email message popup
+  void wrongMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFFF96343),
+          title: Center(
+            child: Text(
+              'Incorrect Email or Password',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   // wrong email message popup
@@ -217,6 +250,23 @@ class _SignInPageState extends State<SignInPage> {
           ],
         ),
       ),
+    );
+  }
+  // wrong email message popup
+  void Message() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          backgroundColor: Color(0xFFF96343),
+          title: Center(
+            child: Text(
+              "Incorrect Email or Password",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
     );
   }
 }

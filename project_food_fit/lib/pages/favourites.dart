@@ -159,8 +159,15 @@ class _FavouritesPageState extends State<FavouritesPage> {
         unselectedFontSize: 0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.grey),
-            label: '',
+            icon: IconButton(
+              icon: Icon(Icons.home, color: Colors.grey),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+            ),
           ),
           BottomNavigationBarItem(
             icon: IconButton(

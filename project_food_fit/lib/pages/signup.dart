@@ -31,36 +31,41 @@ class _SignUpPageState extends State<SignUpPage> {
 
     // try sign up
     try { //if confirm and password are the same
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-      );
-
-      // Get the current user
-      User? user = FirebaseAuth.instance.currentUser;
-
-      // Create a document in "UserInfo" collection with user's UID
-      await FirebaseFirestore.instance.collection('UserInfo').doc(user?.uid).set({
-        'username': usernameController.text,
-        'DateOfBirth': "",
-        'profilePicture': "",
-      });
-
-      // pop the loading circle
-      Navigator.pop(context);
-
-      // Navigate to the profile page
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-      if(usernameController.text == null){
-        usernameNullMessage();
-      }
       if (passwordController.text != passwordVerifyController.text) {
         passwordsDontMatchMessage();
+      } else if(usernameController.text == null) {
+        usernameNullMessage();
+      }else {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+
+        // Get the current user
+        User? user = FirebaseAuth.instance.currentUser;
+
+        // Create a document in "UserInfo" collection with user's UID
+        await FirebaseFirestore.instance.collection('UserInfo')
+            .doc(user?.uid)
+            .set({
+          'username': usernameController.text,
+          'DateOfBirth': "",
+          'profilePicture': "",
+        });
+
+        // pop the loading circle
+        Navigator.pop(context);
+
+        // Navigate to the profile page
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+
+
       }
-    } on FirebaseAuthException catch (e) {
+    }
+      on FirebaseAuthException catch (e) {
       // pop the loading circle
       Navigator.pop(context);
       // WRONG EMAIL
@@ -68,9 +73,8 @@ class _SignUpPageState extends State<SignUpPage> {
         // show error to user
         wrongEmailMessage();
       }
-
-
     }
+
   }
 
   // wrong email message popup

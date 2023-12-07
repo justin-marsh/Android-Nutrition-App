@@ -39,6 +39,9 @@ dependencies:
   cloud_firestore:
   permission_handler:
   sqflite:
+  image_picker:
+  intl:
+  fl_chart: ^0.41.0
 
 dev_dependencies:
   flutter_test:

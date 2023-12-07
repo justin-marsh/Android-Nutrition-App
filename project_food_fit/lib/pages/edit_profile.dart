@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_food_fit/pages/home.dart';
+import 'package:project_food_fit/components/bottom_navbar.dart';
 import 'package:project_food_fit/pages/profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -240,46 +240,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: onTabTapped,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedFontSize: 0,
-        unselectedFontSize: 0,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(Icons.home, color: Colors.grey),
-              onPressed: () {
-                onTabTapped(0);
-              },
-            ),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search, color: Colors.grey),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: CustomPlusIcon(),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite, color: Colors.grey),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(Icons.person, color: Color(0xFFFF785B)),
-              onPressed: () {
-                onTabTapped(4);
-              },
-            ),
-            label: '',
-          ),
-        ],
-      ),
+        bottomNavigationBar: buildBottomNavigationBar(context), // Call the function
     );
   }
 

@@ -1,9 +1,5 @@
-import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:project_food_fit/pages/profile.dart';
-import 'package:project_food_fit/pages/searchpage.dart';
+import 'package:project_food_fit/components/bottom_navbar.dart';
 import 'home.dart';
 import 'package:project_food_fit/components/datamanage.dart';
 
@@ -167,51 +163,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
           }
         },
       ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedFontSize: 0,
-          unselectedFontSize: 0,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.home, color: Colors.grey),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                },
-              ),
-              label: '', // Empty label
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: Color(0xFFFF785B)),
-              label: '', // Empty label
-            ),
-            BottomNavigationBarItem(
-              icon: CustomPlusIcon(),
-              label: '', // Empty label
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Colors.grey),
-              label: '', // Empty label
-            ),
-            BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.person, color: Colors.grey),
-                onPressed: () {
-                  // Navigate to the profile page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
-              ),
-              label: '',
-            ),
-          ],
-        ),
+      bottomNavigationBar: buildBottomNavigationBar(context), // Call the function
     );
   }
 }

@@ -1,10 +1,9 @@
-import 'package:project_food_fit/pages/home.dart';
+import 'package:project_food_fit/components/bottom_navbar.dart';
 import 'package:project_food_fit/pages/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_food_fit/pages/recipe_template.dart';
-import 'package:project_food_fit/pages/favourites.dart';
 void main() {
   runApp(PreferencesPage());
 }
@@ -232,57 +231,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedFontSize: 0,
-          unselectedFontSize: 0,
-          items: <BottomNavigationBarItem>[
-      BottomNavigationBarItem(
-      icon: IconButton(
-          icon: Icon(Icons.home, color: Colors.grey),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      },
-    ),
-    label: '', // Empty label
-    ),
-    BottomNavigationBarItem(
-    icon: Icon(Icons.search, color: Colors.grey),
-    label: '', // Empty label
-    ),
-    BottomNavigationBarItem(
-    icon: CustomPlusIcon(),
-    label: '', // Empty label
-    ),
-    BottomNavigationBarItem(
-      icon: IconButton(
-      icon: Icon(Icons.favorite, color: Colors.grey),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => FavouritesPage()),
-          );
-        },),
-    label: '', // Empty label
-    ),
-    BottomNavigationBarItem(
-    icon: IconButton(
-    icon: Icon(Icons.person, color: Colors.grey),
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ProfilePage()),
-      );
-    },
-    ),
-      label: '',
-    ),
-          ],
-      ),
+      bottomNavigationBar: buildBottomNavigationBar(context), // Call the function
     );
   }
 

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:project_food_fit/components/bottom_navbar.dart';
 import 'package:project_food_fit/pages/profile.dart';
 import 'package:project_food_fit/pages/recipe_template.dart';
-import 'package:project_food_fit/pages/searchpage.dart';
-import 'package:project_food_fit/pages/home.dart';
 
 void main() {
   runApp(ViewStatsPage());
@@ -110,52 +109,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
           }
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedFontSize: 0,
-        unselectedFontSize: 0,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(Icons.home, color: Colors.grey),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
-              },
-            ),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(Icons.search, color: Colors.grey),
-              onPressed: () {
-                // Navigate to the profile page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SearchPage()),
-                );
-              },
-            ),
-
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: CustomPlusIcon(),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite, color: Colors.grey),
-            label: '', // Empty label
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: Color(0xFFFF785B)),
-            label: '', // Empty label
-          ),
-        ],
-      ),
+      bottomNavigationBar: buildBottomNavigationBar(context), // Call the function
     );
   }
 

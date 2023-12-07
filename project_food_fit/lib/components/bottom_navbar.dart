@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_food_fit/pages/favourites.dart';
 import 'package:project_food_fit/pages/recipe_template.dart';
 import 'package:project_food_fit/pages/searchpage.dart';
 import 'package:project_food_fit/pages/home.dart';
 import 'package:project_food_fit/pages/profile.dart';
-import 'package:project_food_fit/pages/favourites.dart';
 
 Widget buildBottomNavigationBar(BuildContext context) {
   return BottomNavigationBar(
@@ -38,8 +38,12 @@ Widget buildBottomNavigationBar(BuildContext context) {
         label: '', // Empty label
       ),
       BottomNavigationBarItem(
+        icon: CustomPlusIcon(),
+        label: '', // Empty label
+      ),
+      BottomNavigationBarItem(
         icon: IconButton(
-          icon: Icon(Icons.search, color: Colors.grey),
+          icon: Icon(Icons.favorite, color: Colors.grey),
           onPressed: () {
             // Navigate to the profile page
             Navigator.push(
@@ -48,10 +52,6 @@ Widget buildBottomNavigationBar(BuildContext context) {
             );
           },
         ),
-        label: '', // Empty label
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.favorite, color: Colors.grey),
         label: '', // Empty label
       ),
       BottomNavigationBarItem(

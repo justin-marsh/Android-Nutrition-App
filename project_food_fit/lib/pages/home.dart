@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:project_food_fit/pages/favourites.dart';
-import 'profile.dart';
-import 'searchpage.dart';
+import 'package:project_food_fit/components/bottom_navbar.dart';
 import 'package:project_food_fit/pages/recipe_template.dart';
 
 void main() {
@@ -245,59 +243,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedFontSize: 0,
-          unselectedFontSize: 0,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Color(0xFFFF785B)),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.search, color: Colors.grey),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SearchPage()),
-                  );
-                },
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: CustomPlusIcon(),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: IconButton(
-              icon: Icon(Icons.favorite, color: Colors.grey),
-
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FavouritesPage()),
-                );
-              },
-            ),
-            label:'',
-            ),
-            BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.person, color: Colors.grey),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
-              ),
-              label: '',
-            ),
-          ],
-        ),
+        bottomNavigationBar: buildBottomNavigationBar(context), // Call the function
       ),
     );
   }

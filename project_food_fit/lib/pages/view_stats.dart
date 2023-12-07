@@ -3,10 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_food_fit/pages/profile.dart';
-<<<<<<< HEAD
 import 'package:project_food_fit/pages/recipe_template.dart';
-=======
->>>>>>> 8d75e9ae76b6d374d0dd2c848344afd92f860eeb
 import 'package:project_food_fit/pages/searchpage.dart';
 import 'package:project_food_fit/pages/home.dart';
 
@@ -324,7 +321,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 class CustomPlusIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return GestureDetector(
       onTap: () {
         // Navigate to the RecipePage when the "+" button is clicked
@@ -345,25 +341,8 @@ class CustomPlusIcon extends StatelessWidget {
             Icons.add,
             color: Colors.white,
           ),
-=======
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Color(0xFFFF785B),
-      ),
-      child: Center(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
->>>>>>> 8d75e9ae76b6d374d0dd2c848344afd92f860eeb
         ),
       ),
     );
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 8d75e9ae76b6d374d0dd2c848344afd92f860eeb

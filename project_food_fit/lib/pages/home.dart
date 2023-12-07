@@ -337,6 +337,11 @@ class _RoundedSquareState extends State<RoundedSquare> {
         widget.onDelete(); // Trigger the onDelete callback
       } else if (value == 'Favourite') {
         _storeRecipeInFirestore();
+        final snackBar = SnackBar(
+          content: Text('Added to favourites!'),
+          duration: Duration(seconds: 2),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     });
   }

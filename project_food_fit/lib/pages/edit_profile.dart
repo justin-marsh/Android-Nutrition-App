@@ -4,6 +4,8 @@ import 'package:project_food_fit/pages/profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_food_fit/pages/recipe_template.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 void main() {
   runApp(EditProfilePage());
@@ -51,6 +53,35 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     });
   }
 
+  void _changeProfilePicture() async {
+
+    // Get the initial profile picture path
+    final initialProfilePicturePath =
+    (await FirebaseFirestore.instance.collection('UserInfo').doc(user.uid).get())['profilePicture'];
+
+
+    // Use ImagePicker to get an image from the user's gallery
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+
+    if (pickedFile != null) {
+      // If an image is selected, update the profile picture in Firebase
+      await FirebaseFirestore.instance
+          .collection('UserInfo')
+          .doc(user.uid)
+          .set({'profilePicture': pickedFile.path});
+
+      // Show a snackbar to indicate success
+      showSnackbar("Profile picture updated!");
+
+      // Check if the new profile picture is different from the initial one
+      if (pickedFile.path != initialProfilePicturePath) {
+        setState(() {});
+      }
+    }
+  }
+
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -80,32 +111,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     );
   }
 
-  void _changeProfilePicture() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Upload a Profile Picture'),
-          content: Text('Do you want to upload a new profile picture?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                print('Uploading profile picture...');
-                Navigator.of(context).pop();
-              },
-              child: Text('Upload'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -157,9 +163,33 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     padding: EdgeInsets.only(left: 20),
                     child: GestureDetector(
                       onTap: _changeProfilePicture,
-                      child: CircleAvatar(
-                        radius: 90,
-                        backgroundImage: AssetImage('assets/profile.png'),
+                      child: FutureBuilder(
+                        // Fetch user data from Firebase
+                        future: FirebaseFirestore.instance
+                            .collection('UserInfo')
+                            .doc(user.uid)
+                            .get(),
+                        builder: (context, snapshot) {
+
+                              // Use the fetched profile picture path or a default value
+                              String profilePicturePath = snapshot
+                                  .data?['profilePicture'];
+                              print(profilePicturePath);
+                              if (profilePicturePath == '') {
+                                return CircleAvatar(
+                                  radius: 90,
+                                  backgroundImage: AssetImage(
+                                      'assets/profile.png'),
+                                );
+                              } else {
+                                return CircleAvatar(
+                                  radius: 90,
+                                  backgroundImage: FileImage(
+                                      File(profilePicturePath)),
+                                );
+
+                            }
+                        },
                       ),
                     ),
                   ),

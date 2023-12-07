@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_food_fit/components/datamanage.dart';
 import 'package:project_food_fit/pages/recipe_template.dart';
-import 'home.dart';
-import 'profile.dart';
+import 'package:project_food_fit/pages/recipeviewer.dart';
+import 'package:project_food_fit/components/bottom_navbar.dart'; // Import the bottom_navbar.dart file
 import 'package:project_food_fit/pages/favourites.dart';
 void main() {
   runApp(SearchPage());
@@ -32,58 +32,7 @@ class _SearchPageState extends State<SearchPage> {
             _buildSearchResults(),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedFontSize: 0,
-          unselectedFontSize: 0,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.home, color: Colors.grey),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                },
-              ),
-              label: '', // Empty label
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: Color(0xFFFF785B)),
-              label: '', // Empty label
-            ),
-            BottomNavigationBarItem(
-              icon: CustomPlusIcon(),
-              label: '', // Empty label
-            ),
-            BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.favorite, color: Colors.grey),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FavouritesPage()),
-                  );
-                },),
-              label: '', // Empty label
-            ),
-            BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.person, color: Colors.grey),
-                onPressed: () {
-                  // Navigate to the profile page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
-              ),
-              label: '',
-            ),
-          ],
-        ),
+        bottomNavigationBar: buildBottomNavigationBar(context), // Call the function
       ),
     );
   }
@@ -119,6 +68,17 @@ class _SearchPageState extends State<SearchPage> {
         itemCount: searchResults.length,
         itemBuilder: (context, index) {
           return ListTile(
+            onTap: () {
+              // Navigate to the recipe_template page with the selected recipe's ID
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RecipeDatabasePage(
+                    recipeID: searchResults[index]['id'],
+                  ),
+                ),
+              );
+            },
             
             leading: CircleAvatar(
               // Assuming 'image' is a key in your searchResults

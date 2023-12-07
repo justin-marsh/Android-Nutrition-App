@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_food_fit/pages/home.dart';
 import 'package:project_food_fit/pages/profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(EditProfilePage());
@@ -28,6 +30,26 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
   int _currentIndex = 0;
 
+  final user = FirebaseAuth.instance.currentUser!;
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch user data from Firebase and set the initial values
+    FirebaseFirestore.instance
+        .collection('UserInfo')
+        .doc(user.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        setState(() {
+          usernameController.text = documentSnapshot['username'] ?? '';
+          dobController.text = documentSnapshot['DateOfBirth'] ?? '';
+        });
+      }
+    });
+  }
+
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -41,6 +63,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
       );
     }
   }
+
   void showSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -141,19 +164,44 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   ),
                   SizedBox(width: 20),
                   // Text
-                  Text(
-                    "Alex Smith",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                  FutureBuilder(
+                    // Fetch user data from Firebase
+                    future: FirebaseFirestore.instance
+                        .collection('UserInfo')
+                        .doc(user.uid)
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text(
+                          "Loading...",
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        );
+                      } else {
+                        // Use the fetched username or a default value
+                        String username =
+                            snapshot.data?['username'] ?? 'Username';
+                        return Text(
+                          username,
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
-              buildTextFieldRow("Username:", usernameController, "Alex_Smith"),
-              buildTextFieldRow("Date of Birth:", dobController, "2nd April 1998"),
-              buildTextFieldRow("Email:", emailController, "alex@gmail.com"),
+              buildTextFieldRow(
+                  "Username:", usernameController, usernameController.text),
+              buildTextFieldRow(
+                  "Date of Birth:", dobController, dobController.text),
+
               buildSaveButton(),
             ],
           ),
@@ -216,7 +264,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     );
   }
 
-  Widget buildTextFieldRow(String label, TextEditingController controller, String hintText) {
+  Widget buildTextFieldRow(
+      String label, TextEditingController controller, String hintText) {
     return Container(
       margin: EdgeInsets.all(20.0),
       padding: EdgeInsets.only(left: 10.0),
@@ -261,7 +310,17 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
       margin: EdgeInsets.symmetric(vertical: 20.0),
       child: ElevatedButton(
         onPressed: () {
-          showSnackbar("Profile settings saved!");
+          // Save data to Firebase
+          FirebaseFirestore.instance.collection('UserInfo').doc(user.uid).set(
+            {
+              'username': usernameController.text,
+              'DateOfBirth': dobController.text,
+            },
+          ).then((value) {
+            showSnackbar("Profile settings saved!");
+          }).catchError((error) {
+            showSnackbar("Error saving profile settings: $error");
+          });
         },
         style: ElevatedButton.styleFrom(
           primary: Color(0xFFFF785B),

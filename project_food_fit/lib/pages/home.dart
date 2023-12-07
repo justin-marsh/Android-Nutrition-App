@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'searchpage.dart';
 
 void main() {
   runApp(HomePage());
@@ -217,7 +217,17 @@ class _HomePageState extends State<HomePage> {
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: Colors.grey),
+              icon: IconButton(
+                icon: Icon(Icons.search, color: Colors.grey),
+                onPressed: () {
+                  // Navigate to the profile page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchPage()),
+                  );
+                },
+              ),
+
               label: '',
             ),
             BottomNavigationBarItem(

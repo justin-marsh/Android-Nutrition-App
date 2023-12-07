@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_food_fit/main.dart';
 import 'preferences.dart';
+import 'searchpage.dart';
 import 'home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -141,8 +142,18 @@ class ProfilePage extends StatelessWidget {
                     label: '', // Empty label
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.search, color: Colors.grey),
-                    label: '', // Empty label
+                    icon: IconButton(
+                      icon: Icon(Icons.search, color: Colors.grey),
+                      onPressed: () {
+                      // Navigate to the profile page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchPage()),
+                      );
+                    },
+                  ),
+
+                  label: '',
                   ),
                   BottomNavigationBarItem(
                     icon: CustomPlusIcon(),

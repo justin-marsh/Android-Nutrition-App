@@ -38,6 +38,7 @@ dependencies:
   firebase_auth:
   cloud_firestore:
   permission_handler:
+  sqflite:
 
 dev_dependencies:
   flutter_test:

@@ -6,6 +6,8 @@ import 'searchpage.dart';
 import 'home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:project_food_fit/pages/view_stats.dart';
+import 'package:project_food_fit/pages/edit_profile.dart';
 
 void main() {
   runApp(ProfilePage());
@@ -100,17 +102,23 @@ class ProfilePage extends StatelessWidget {
                           padding: EdgeInsets.all(40.0),
                           child: Column(
                             children: [
-                              _buildIconWithText(Color(0xFFFF785B), Icons.person, 'Edit profile'),
+                              _buildIconWithText(Color(0xFFFF785B), Icons.person, 'Edit profile', () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => EditProfilePage(),
+                                ));
+                              }),
                               SizedBox(height: 40.0),
-                              _buildIconWithText(Color(0xFFFF785B), Icons.star, 'View Stats'),
+                              _buildIconWithText(Color(0xFFFF785B), Icons.star, 'View Stats', () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ViewStatsPage(),
+                                ));
+                              }),
                               SizedBox(height: 40.0),
                               _buildIconWithText(Color(0xFFFF785B), Icons.settings, 'Preferences', () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PreferencesPage(),
                                 ));
                               }),
-                              SizedBox(height: 40.0),
-                              _buildIconWithText(Color(0xFFFF785B), Icons.library_books, 'Terms and privacy policy'),
                               SizedBox(height: 40.0),
                               _buildIconWithText(Color(0xFFFF785B), Icons.exit_to_app, 'Logout', () {
                                 signUserOut(context);

@@ -8,6 +8,8 @@ Future<void> initializeDatabase() async {
   bool dbExists = await databaseExists('projectdatabase.db');
   print("dbExists: $dbExists");
 
+
+
   if (!dbExists) {
     print("db does not exist");
     // If the database does not exist, create it
@@ -28,13 +30,43 @@ Future<void> initializeDatabase() async {
     print("Database created.");
   } else {
     print("Database already exists: $dbExists");
+    // Check if the 'recipes' table exists
+    final db = await openDatabase('projectdatabase.db');
+    List<Map<String, dynamic>> tables = await db.query('sqlite_master');
+    print("tables: $tables");
+    bool recipesTableExists = tables.any((table) => table['name'] == 'recipes');
+
+    print("recipesTableExists: $recipesTableExists");
+    if (!recipesTableExists) {
+      await db.execute(
+        'CREATE TABLE recipes ('
+        'id INTEGER PRIMARY KEY,'
+        'name TEXT,'
+        'description TEXT,'
+        'calories INTEGER,'
+        'difficulty INTEGER,'
+        'ingredients TEXT,'
+        'diet TEXT'
+        ')',
+      );
+    }
+    else{
+      print("table already exists");
+    }
+
   }
+
+  print("at this point there should be no issues on the database or tables existence");
+  print("");
+
+
+
 
     // Check if the 'recipes' table is empty
   int? rowCount = await getRecipeCount();
   
   if (rowCount == 0) {
-    print("Database is empty. Adding template recipes.");
+    print("No rows of data found. Adding template recipes.");
 
     // Insert 10 template recipes
     for (int i = 0; i < 10; i++) {
@@ -51,7 +83,7 @@ Future<void> initializeDatabase() async {
 
     print("Template recipes inserted.");
   } else {
-    print("Database is not empty.");
+    print("Rows of data exist.");
   }
 }
 

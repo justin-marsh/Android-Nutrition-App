@@ -8,7 +8,6 @@ import 'home.dart';
 import 'package:project_food_fit/components/datamanage.dart';
 
 void main() async{
-  final db = await createTables();
   runApp(RecipePage());
 }
 
@@ -245,33 +244,16 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 onPressed: () {
                   Random random = Random();
 
-                  checkDatabase().then((pathExists) {
-                    if (pathExists) {
-                      // If database exists, call addRecipe
+                  
+                  addRecipes(Recipe(
+                    name: nameController.text,
+                    description: descriptionController.text,
+                    calories: int.parse(caloriesController.text),
+                    difficulty: 0,
+                    ingredients: ingredientsController.text.split(', '),
+                    diet: [],
+                  ));
 
-                        addRecipes(Recipe(
-                          name: nameController.text,
-                          description: descriptionController.text,
-                          calories: int.parse(caloriesController.text),
-                          difficulty: 0,
-                          ingredients: ingredientsController.text.split(', '),
-                          diet: [],
-                        ));
-
-                    } else {
-                      // If database doesn't exist, create it and then call addRecipe
-                      createTables().then((_) {
-                        addRecipes(Recipe(
-                          name: nameController.text,
-                          description: descriptionController.text,
-                          calories: int.parse(caloriesController.text),
-                          difficulty: 0,
-                          ingredients: ingredientsController.text.split(', '),
-                          diet: [],
-                        ));
-                      });
-                    }
-                  });
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFFFF785B),

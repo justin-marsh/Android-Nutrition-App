@@ -3,9 +3,11 @@ import 'pages/signup.dart';
 import 'pages/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'components/firebase_options.dart';
+import 'package:project_food_fit/components/datamanage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDatabase();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform, //resolves flutter api outdated errors, makes app more stable
   );

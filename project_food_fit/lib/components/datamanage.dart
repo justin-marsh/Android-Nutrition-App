@@ -3,43 +3,59 @@ import 'package:path/path.dart';
 import 'dart:math';
 
 
-Future<Database> createTables() async {
-  final db = await openDatabase('projectdatabase.db', version: 1,
-      onCreate: (Database db, int version) async {
-        await db.execute(
-          'CREATE TABLE recipes ('
-              'id INTEGER PRIMARY KEY,'
-              'name TEXT,'
-              'description TEXT,'
-              'calories INTEGER,'
-              'difficulty INTEGER,'
-              'ingredients TEXT,'
-              'diet TEXT'
-              ')',
-        );
-      });
+Future<void> initializeDatabase() async {
+  // Check if the database file exists
+  bool dbExists = await databaseExists('projectdatabase.db');
+  print("dbExists: $dbExists");
 
-  print("Database created.");
-  return db;
-}
-Future<void> createTable() async {
-  final db = await openDatabase('projectdatabase.db', version: 1,
-      onCreate: (Database db, int version) async {
-    await db.execute(
-      'CREATE TABLE recipes ('
-      'id INTEGER PRIMARY KEY,'
-      'name TEXT,'
-      'description TEXT,'
-      'calories INTEGER,'
-      'difficulty INTEGER,'
-      'ingredients TEXT,'
-      'diet TEXT'
-      ')',
-    );
-  });
+  if (!dbExists) {
+    print("db does not exist");
+    // If the database does not exist, create it
+    final db = await openDatabase('projectdatabase.db', version: 1,
+        onCreate: (Database db, int version) async {
+      await db.execute(
+        'CREATE TABLE recipes ('
+        'id INTEGER PRIMARY KEY,'
+        'name TEXT,'
+        'description TEXT,'
+        'calories INTEGER,'
+        'difficulty INTEGER,'
+        'ingredients TEXT,'
+        'diet TEXT'
+        ')',
+      );
+    });
+    print("Database created.");
+  } else {
+    print("Database already exists: $dbExists");
+  }
 
-  print("Database created.");
+    // Check if the 'recipes' table is empty
+  int? rowCount = await getRecipeCount();
+  
+  if (rowCount == 0) {
+    print("Database is empty. Adding template recipes.");
+
+    // Insert 10 template recipes
+    for (int i = 0; i < 10; i++) {
+      Recipe templateRecipe = Recipe(
+        name: 'Template Recipe $i',
+        description: 'This is a template recipe.',
+        calories: 200,
+        difficulty: 2,
+        ingredients: ['Ingredient 1', 'Ingredient 2'],
+        diet: ['Vegetarian'],
+      );
+      await addRecipe(templateRecipe);
+    }
+
+    print("Template recipes inserted.");
+  } else {
+    print("Database is not empty.");
+  }
 }
+
+
 Future<bool> checkDatabase() async {
   try {
     final databasesPath = await getDatabasesPath();
@@ -147,7 +163,7 @@ Future<void> addRecipe(Recipe recipe) async {
   print("Database opened, and data inserted.");
 }
 Future<void> addRecipes(Recipe recipe) async {
-  final db = await createTables();
+  final db = await openDatabase('projectdatabase.db');
   Random random = Random();
 
   // Generate a random integer between 1 and 5 (inclusive)

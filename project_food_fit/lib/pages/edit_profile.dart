@@ -70,7 +70,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
       await FirebaseFirestore.instance
           .collection('UserInfo')
           .doc(user.uid)
-          .set({'profilePicture': pickedFile.path});
+          .set({'profilePicture': pickedFile.path,
+                'username:': usernameController.text,
+                'DateOfBirth': dobController.text});
 
       // Show a snackbar to indicate success
       showSnackbar("Profile picture updated!");

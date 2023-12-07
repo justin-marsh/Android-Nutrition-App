@@ -3,7 +3,7 @@ import 'package:project_food_fit/components/datamanage.dart';
 import 'package:project_food_fit/pages/recipe_template.dart';
 import 'home.dart';
 import 'profile.dart';
-
+import 'package:project_food_fit/pages/favourites.dart';
 void main() {
   runApp(SearchPage());
 }
@@ -59,7 +59,14 @@ class _SearchPageState extends State<SearchPage> {
               label: '', // Empty label
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Colors.grey),
+              icon: IconButton(
+                icon: Icon(Icons.favorite, color: Colors.grey),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FavouritesPage()),
+                  );
+                },),
               label: '', // Empty label
             ),
             BottomNavigationBarItem(

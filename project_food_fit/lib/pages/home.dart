@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:project_food_fit/pages/favourites.dart';
 import 'profile.dart';
 import 'searchpage.dart';
 import 'package:project_food_fit/pages/recipe_template.dart';
@@ -271,8 +272,17 @@ class _HomePageState extends State<HomePage> {
               label: '',
             ),
             BottomNavigationBarItem(
+              icon: IconButton(
               icon: Icon(Icons.favorite, color: Colors.grey),
-              label: '',
+
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FavouritesPage()),
+                );
+              },
+            ),
+            label:'',
             ),
             BottomNavigationBarItem(
               icon: IconButton(
@@ -398,7 +408,10 @@ class _RoundedSquareState extends State<RoundedSquare> {
       DocumentReference userFavouritesDoc = firestore.collection('UserFavourites').doc(user.uid);
 
       // Add the recipe data to the user's document
-      await userFavouritesDoc.set({
+      await FirebaseFirestore.instance.collection('UserFavourites')
+          .doc(user.uid)
+          .collection('favs')
+          .add({
         'label': widget.label,
         'calories': widget.calories,
         'imageAsset': widget.imageAsset,

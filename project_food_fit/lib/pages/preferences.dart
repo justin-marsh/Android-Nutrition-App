@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_food_fit/pages/recipe_template.dart';
-
+import 'package:project_food_fit/pages/favourites.dart';
 void main() {
   runApp(PreferencesPage());
 }
@@ -259,7 +259,14 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     label: '', // Empty label
     ),
     BottomNavigationBarItem(
-    icon: Icon(Icons.favorite, color: Colors.grey),
+      icon: IconButton(
+      icon: Icon(Icons.favorite, color: Colors.grey),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => FavouritesPage()),
+          );
+        },),
     label: '', // Empty label
     ),
     BottomNavigationBarItem(

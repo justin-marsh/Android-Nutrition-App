@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   late User _user;
   late String _userName = "";
   List<MealPlanSquare> mealPlanSquares = []; // List to store meal plan squares
+  ImageProvider<Object> _profilePicture = AssetImage('assets/profile.png');
 
 
   @override
@@ -47,18 +48,34 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _initializeUser() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    _user = auth.currentUser!;
+    try {
+      FirebaseAuth auth = FirebaseAuth.instance;
+      User user = auth.currentUser!;
 
-    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-        .collection('UserInfo')
-        .doc(_user.uid)
-        .get();
+      // Assuming you have a 'users' collection in Firestore
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('UserInfo')
+          .doc(user.uid)
+          .get();
 
-    String fullName = userSnapshot['username'];
-    _userName = fullName.split(' ')[0];
+      String fullName = userSnapshot['username'];
+      _userName = fullName.split(' ')[0];
 
-    setState(() {});
+      // Check if the user has a profile picture URL
+      String profilePicture = userSnapshot['profilePicture'] ?? "";
+
+      if (profilePicture.isNotEmpty) {
+        // Use the profile picture URL from Firestore
+        _profilePicture = NetworkImage(profilePicture);
+      } else {
+        // Fallback to the default profile picture
+        _profilePicture = AssetImage('assets/profile.png');
+      }
+
+      setState(() {});
+    } catch (error) {
+      print('Error initializing user: $error');
+    }
   }
   void _deleteMealPlanSquare(MealPlanSquare square) {
     // Delete the specified meal plan square

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Import the intl package for date formatting
-import 'package:project_food_fit/pages/recipe_template.dart';
-import 'profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'profile.dart';
 import 'searchpage.dart';
+import 'package:project_food_fit/pages/recipe_template.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,28 +27,44 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late User _user;
   late String _userName = "";
+  List<MealPlanSquare> mealPlanSquares = []; // List to store meal plan squares
+
 
   @override
   void initState() {
     super.initState();
     _initializeUser();
+    _initializeMealPlanSquares();
+  }
+  void _initializeMealPlanSquares() {
+    // Add initial meal plan squares to the list
+    mealPlanSquares = [
+      MealPlanSquare('Breakfast', '1000 Cals', 'assets/breakfast.png'),
+      MealPlanSquare('Lunch', '1200 Cals', 'assets/lunch.jpg'),
+      MealPlanSquare('Snack', '220 Cals', 'assets/snack.png'),
+      MealPlanSquare('Dinner', '800 Cals', 'assets/dinner.jpg'),
+    ];
   }
 
   Future<void> _initializeUser() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     _user = auth.currentUser!;
 
-    // Assuming you have a 'users' collection in Firestore
     DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
         .collection('UserInfo')
         .doc(_user.uid)
         .get();
 
-    // Assuming the 'username' field exists in the user document
     String fullName = userSnapshot['username'];
     _userName = fullName.split(' ')[0];
 
-    setState(() {}); // Update the UI with the retrieved username
+    setState(() {});
+  }
+  void _deleteMealPlanSquare(MealPlanSquare square) {
+    // Delete the specified meal plan square
+    setState(() {
+      mealPlanSquares.remove(square);
+    });
   }
 
   @override
@@ -57,7 +73,6 @@ class _HomePageState extends State<HomePage> {
       home: Scaffold(
         body: Stack(
           children: [
-            // Background gradient decoration
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -72,7 +87,6 @@ class _HomePageState extends State<HomePage> {
               top: 40,
               left: 20,
               child: Container(
-                // Profile image container
                 width: 60.0,
                 height: 60.0,
                 decoration: BoxDecoration(
@@ -102,7 +116,6 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // User greeting and activity info
                         Text(
                           'Hello, $_userName!',
                           style: TextStyle(
@@ -117,7 +130,6 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: EdgeInsets.only(left: 10.0),
                       child: Text(
-                        // Use DateFormat to format the current date
                         DateFormat('EEEE, MMMM d').format(DateTime.now()),
                         style: TextStyle(
                           fontFamily: 'Montserrat',
@@ -138,11 +150,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    // Empty SizedBox
                     SizedBox(height: 0),
                     Row(
                       children: [
-                        // Buttons for different days
                         ButtonWidget('Day 1', width: 89.0, height: 60.0, borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10.0),
                         )),
@@ -180,26 +190,37 @@ class _HomePageState extends State<HomePage> {
                       width: 360.0,
                       color: Colors.grey,
                     ),
-                    // SizedBox to add vertical space
+                    SizedBox(height: 20.0),
+                    // Display meal plan squares dynamically in two columns
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // Display the first two meal plan squares in the first column
+                        for (var i = 0; i < mealPlanSquares.length && i < 2; i++)
+                          RoundedSquare(
+                            mealPlanSquares[i].label,
+                            mealPlanSquares[i].calories,
+                            mealPlanSquares[i].imageAsset,
+                            onDelete: () => _deleteMealPlanSquare(mealPlanSquares[i]),
+                          ),
+                      ],
+                    ),
                     SizedBox(height: 20.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // Meal plan squares for breakfast and lunch
-                        RoundedSquare('Breakfast', '1000 Cals', 'assets/breakfast.png'),
-                        RoundedSquare('Lunch', '1200 Cals', 'assets/lunch.jpg'),
+                        // Display the last two meal plan squares in the second column
+                        for (var i = 2; i < mealPlanSquares.length; i++)
+                          RoundedSquare(
+                            mealPlanSquares[i].label,
+                            mealPlanSquares[i].calories,
+                            mealPlanSquares[i].imageAsset,
+                            onDelete: () => _deleteMealPlanSquare(mealPlanSquares[i]),
+                          ),
                       ],
                     ),
-                    // SizedBox to add vertical space
-                    SizedBox(height: 20.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // Meal plan squares for snack and dinner
-                        RoundedSquare('Snack', '220 Cals', 'assets/snack.png'),
-                        RoundedSquare('Dinner', '800 Cals', 'assets/dinner.jpg'),
-                      ],
-                    ),
+
+
                   ],
                 ),
               ),
@@ -220,7 +241,6 @@ class _HomePageState extends State<HomePage> {
               icon: IconButton(
                 icon: Icon(Icons.search, color: Colors.grey),
                 onPressed: () {
-                  // Navigate to the profile page
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SearchPage()),
@@ -241,7 +261,6 @@ class _HomePageState extends State<HomePage> {
               icon: IconButton(
                 icon: Icon(Icons.person, color: Colors.grey),
                 onPressed: () {
-                  // Navigate to the profile page
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ProfilePage()),
@@ -262,7 +281,6 @@ class CustomPlusIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigate to the RecipePage when the "+" button is clicked
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RecipePage()),
@@ -316,13 +334,20 @@ class ButtonWidget extends StatelessWidget {
     );
   }
 }
-
-class RoundedSquare extends StatefulWidget {
+class MealPlanSquare {
   final String label;
   final String calories;
   final String imageAsset;
 
-  RoundedSquare(this.label, this.calories, this.imageAsset);
+  MealPlanSquare(this.label, this.calories, this.imageAsset);
+}
+class RoundedSquare extends StatefulWidget {
+  final String label;
+  final String calories;
+  final String imageAsset;
+  final VoidCallback onDelete;
+
+  RoundedSquare(this.label, this.calories, this.imageAsset, {required this.onDelete});
 
   @override
   _RoundedSquareState createState() => _RoundedSquareState();
@@ -334,15 +359,40 @@ class _RoundedSquareState extends State<RoundedSquare> {
   void _handleMenuItemSelected(String value) {
     setState(() {
       selectedOption = value;
-      // Implement actions for each selected option here.
-      if (value == 'Share') {
-        // Handle the "Share" action.
-      } else if (value == 'Delete') {
+      if (value == 'Delete') {
         // Handle the "Delete" action.
-      } else if (value == 'Save') {
-        // Handle the "Save" action.
+        widget.onDelete(); // Trigger the onDelete callback
+      } else if (value == 'Favourite') {
+        _storeRecipeInFirestore();
       }
     });
+  }
+
+  Future<void> _storeRecipeInFirestore() async {
+    try {
+      // Access the current user
+      FirebaseAuth auth = FirebaseAuth.instance;
+      User user = auth.currentUser!;
+
+      // Access the Firestore instance
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      // Access the 'UserFavourites' collection and use the user's UID as the document ID
+      DocumentReference userFavouritesDoc = firestore.collection('UserFavourites').doc(user.uid);
+
+      // Add the recipe data to the user's document
+      await userFavouritesDoc.set({
+        'label': widget.label,
+        'calories': widget.calories,
+        'imageAsset': widget.imageAsset,
+      });
+
+      // For demonstration purposes, let's print a message.
+      print('Recipe added to user\'s favourites');
+    } catch (error) {
+      // Handle any errors that occur during the process.
+      print('Error storing recipe: $error');
+    }
   }
 
   @override
@@ -408,16 +458,12 @@ class _RoundedSquareState extends State<RoundedSquare> {
             onSelected: _handleMenuItemSelected,
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               PopupMenuItem<String>(
-                value: 'Share',
-                child: Text('Share'),
-              ),
-              PopupMenuItem<String>(
                 value: 'Delete',
                 child: Text('Delete'),
               ),
               PopupMenuItem<String>(
-                value: 'Save',
-                child: Text('Save'),
+                value: 'Favourite',
+                child: Text('Favourite'),
               ),
             ],
             child: Container(

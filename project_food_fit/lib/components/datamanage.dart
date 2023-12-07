@@ -1,8 +1,27 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'dart:math';
 
 
+Future<Database> createTables() async {
+  final db = await openDatabase('projectdatabase.db', version: 1,
+      onCreate: (Database db, int version) async {
+        await db.execute(
+          'CREATE TABLE recipes ('
+              'id INTEGER PRIMARY KEY,'
+              'name TEXT,'
+              'description TEXT,'
+              'calories INTEGER,'
+              'difficulty INTEGER,'
+              'ingredients TEXT,'
+              'diet TEXT'
+              ')',
+        );
+      });
 
+  print("Database created.");
+  return db;
+}
 Future<void> createTable() async {
   final db = await openDatabase('projectdatabase.db', version: 1,
       onCreate: (Database db, int version) async {
@@ -21,7 +40,16 @@ Future<void> createTable() async {
 
   print("Database created.");
 }
-
+Future<bool> checkDatabase() async {
+  try {
+    final databasesPath = await getDatabasesPath();
+    final path = join(databasesPath, 'projectdatabase.db');
+    await openDatabase(path);
+    return true; // Database exists
+  } catch (_) {
+    return false; // Database does not exist
+  }
+}
 void checkDatabasePath() async {
   final db = await openDatabase('projectdatabase.db');
 
@@ -102,9 +130,30 @@ class Recipe {
 }
 Future<void> addRecipe(Recipe recipe) async {
   final db = await openDatabase('projectdatabase.db');
+  Random random = Random();
 
+  // Generate a random integer between 1 and 5 (inclusive)
+  int randomNumber = random.nextInt(100000) + 1;
   await db.insert('recipes', {
-    'id': await getRecipeCount(),
+    'id': randomNumber,
+    'name': recipe.name,
+    'description': recipe.description,
+    'calories': recipe.calories,
+    'difficulty': recipe.difficulty,
+    'ingredients': recipe.ingredients.join(', '),
+    'diet': recipe.diet.join(', '),
+  });
+
+  print("Database opened, and data inserted.");
+}
+Future<void> addRecipes(Recipe recipe) async {
+  final db = await createTables();
+  Random random = Random();
+
+  // Generate a random integer between 1 and 5 (inclusive)
+  int randomNumber = random.nextInt(100000) + 1;
+  await db.insert('recipes', {
+    'id': randomNumber,
     'name': recipe.name,
     'description': recipe.description,
     'calories': recipe.calories,

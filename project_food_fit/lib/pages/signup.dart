@@ -42,6 +42,8 @@ class _SignUpPageState extends State<SignUpPage> {
       // Create a document in "UserInfo" collection with user's UID
       await FirebaseFirestore.instance.collection('UserInfo').doc(user?.uid).set({
         'username': usernameController.text,
+        'DateOfBirth': "",
+        'profilePicture': "",
       });
 
       // pop the loading circle

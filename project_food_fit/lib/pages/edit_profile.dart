@@ -346,6 +346,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
             {
               'username': usernameController.text,
               'DateOfBirth': dobController.text,
+              'profilePicture': "",
             },
           ).then((value) {
             showSnackbar("Profile settings saved!");

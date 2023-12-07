@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Import the intl package for date formatting
+import 'package:project_food_fit/pages/recipe_template.dart';
 import 'profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'searchpage.dart';
 
 void main() {
-  runApp(HomePage());
+  runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,15 +23,15 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-class _HomePageState extends State<HomePage> {
 
+class _HomePageState extends State<HomePage> {
   late User _user;
   late String _userName = "";
 
   @override
   void initState() {
     super.initState();
-
+    _initializeUser();
   }
 
   Future<void> _initializeUser() async {
@@ -45,13 +48,11 @@ class _HomePageState extends State<HomePage> {
     String fullName = userSnapshot['username'];
     _userName = fullName.split(' ')[0];
 
-
     setState(() {}); // Update the UI with the retrieved username
   }
 
   @override
   Widget build(BuildContext context) {
-    _initializeUser();
     return MaterialApp(
       home: Scaffold(
         body: Stack(
@@ -102,8 +103,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // User greeting and activity info
-
-                         Text(
+                        Text(
                           'Hello, $_userName!',
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
@@ -112,13 +112,13 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.black,
                           ),
                         ),
-
                       ],
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 10.0),
                       child: Text(
-                        'Friday, July 15',
+                        // Use DateFormat to format the current date
+                        DateFormat('EEEE, MMMM d').format(DateTime.now()),
                         style: TextStyle(
                           fontFamily: 'Montserrat',
                           fontSize: 18,
@@ -227,7 +227,6 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-
               label: '',
             ),
             BottomNavigationBarItem(
@@ -249,32 +248,38 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-
               label: '',
             ),
           ],
         ),
       ),
     );
-
   }
-
 }
 
 class CustomPlusIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Color(0xFFFF785B),
-      ),
-      child: Center(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
+    return GestureDetector(
+      onTap: () {
+        // Navigate to the RecipePage when the "+" button is clicked
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RecipePage()),
+        );
+      },
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFFFF785B),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/signup.dart';
-import 'pages/signin.dart'; // Assuming you have a SignInPage
+import 'pages/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'components/firebase_options.dart';
 

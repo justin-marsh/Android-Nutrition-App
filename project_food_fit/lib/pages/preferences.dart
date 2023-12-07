@@ -3,6 +3,7 @@ import 'package:project_food_fit/pages/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:project_food_fit/pages/recipe_template.dart';
 
 void main() {
   runApp(PreferencesPage());
@@ -372,21 +373,31 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 class CustomPlusIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Color(0xFFFF785B),
-      ),
-      child: Center(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
+    return GestureDetector(
+      onTap: () {
+        // Navigate to the RecipePage when the "+" button is clicked
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RecipePage()),
+        );
+      },
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFFFF785B),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
       ),
     );
   }
 }
+
 
 

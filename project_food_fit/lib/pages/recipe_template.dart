@@ -63,7 +63,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   void _goBack() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => ProfilePage()),
+      MaterialPageRoute(builder: (context) => HomePage()),
     );
   }
 
@@ -294,7 +294,10 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
             icon: IconButton(
               icon: Icon(Icons.person, color: Color(0xFFFF785B)),
               onPressed: () {
-                onTabTapped(4);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
               },
             ),
             label: '',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_food_fit/components/datamanage.dart';
+import 'package:project_food_fit/pages/recipe_template.dart';
 import 'home.dart';
 import 'profile.dart';
 
@@ -145,19 +146,29 @@ class _SearchPageState extends State<SearchPage> {
 class CustomPlusIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Color(0xFFFF785B),
-      ),
-      child: Center(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
+    return GestureDetector(
+      onTap: () {
+        // Navigate to the RecipePage when the "+" button is clicked
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RecipePage()),
+        );
+      },
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFFFF785B),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
       ),
     );
   }
 }
+

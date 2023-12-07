@@ -7,7 +7,7 @@ import 'package:project_food_fit/pages/searchpage.dart';
 import 'home.dart';
 import 'package:project_food_fit/components/datamanage.dart';
 
-void main() async{
+void main() async {
   runApp(RecipePage());
 }
 
@@ -28,33 +28,27 @@ class PreferencesScreen extends StatefulWidget {
 class _PreferencesScreenState extends State<PreferencesScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _currentIndex = 0;
-  String? imagePath; // Use "?" to indicate that it can be null
+  String? imagePath;
   TextEditingController nameController = TextEditingController();
-  TextEditingController descriptionController =
-  TextEditingController(); // New controller for description
-  TextEditingController caloriesController =
-  TextEditingController(); // Controller for calories
-  TextEditingController ingredientsController =
-  TextEditingController(); // Controller for ingredients
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController caloriesController = TextEditingController();
+  TextEditingController ingredientsController = TextEditingController();
 
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
     if (index == 0) {
-      // Navigate to HomePage
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
     } else if (index == 1) {
-      // Navigate to SearchPage
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => SearchPage()),
       );
     } else if (index == 4) {
-      // Navigate to Profile page
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ProfilePage()),
@@ -80,101 +74,120 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Background Image or Grey Box
-              Container(
-                height: 400,
-                color: Colors.grey,
-                child: imagePath != null
-                    ? Image.file(
-                  File(imagePath!),
-                  height: 400,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                )
-                    : Center(
-                  child: GestureDetector(
-                    onTap: _pickImage,
-                    child: Icon(
-                      Icons.add,
-                      size: 48,
+  Future<void> _showSaveConfirmationDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Container(
+            height: 150,
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Recipe Saved',
+                  style: TextStyle(
+                    color: Color(0xFFFF785B), // Match the color of the save button
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFFF785B),
+                  ),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
                       color: Colors.white,
                     ),
                   ),
                 ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _scaffoldKey,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 400,
+              color: Colors.grey,
+              child: imagePath != null
+                  ? Image.file(
+                File(imagePath!),
+                height: 400,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              )
+                  : Center(
+                child: GestureDetector(
+                  onTap: _pickImage,
+                  child: Icon(
+                    Icons.add,
+                    size: 48,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-              // Editable Text Field for Name
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 10, top: 20),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    width: 200,
-                    child: TextField(
-                      controller: nameController,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 10, top: 20),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  width: 200,
+                  child: TextField(
+                    controller: nameController,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.start,
+                    decoration: InputDecoration(
+                      hintText: 'Add Name Here',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
                       ),
-                      textAlign: TextAlign.start,
-                      decoration: InputDecoration(
-                        hintText: 'Add Name Here',
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                        ),
-                        border: InputBorder.none,
-                      ),
+                      border: InputBorder.none,
                     ),
                   ),
                 ),
               ),
-              // Row for Description and Calories
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 10, top: 5),
-                child: Row(
-                  children: [
-                    // Editable Text Field for Description
-                    Expanded(
-                      child: Container(
-                        child: TextField(
-                          controller: descriptionController,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
-                          textAlign: TextAlign.start,
-                          decoration: InputDecoration(
-                            hintText: 'Description',
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    // Editable Text Field for Calories
-                    Container(
-                      width: 100,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 10, top: 5),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
                       child: TextField(
-                        controller: caloriesController,
+                        controller: descriptionController,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
                         ),
                         textAlign: TextAlign.start,
                         decoration: InputDecoration(
-                          hintText: 'Calories',
+                          hintText: 'Description',
                           hintStyle: TextStyle(
                             color: Colors.grey,
                           ),
@@ -182,40 +195,19 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              // Text for Ingredients
-              Padding(
-                padding: const EdgeInsets.only(left: 15, top: 5),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Ingredients',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
-                ),
-              ),
-              // Editable Text Field for Ingredients
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 10, top: 5),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    width: 200,
+                  SizedBox(width: 10),
+                  Container(
+                    width: 100,
                     child: TextField(
-                      controller: ingredientsController,
+                      controller: caloriesController,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
                       ),
                       textAlign: TextAlign.start,
                       decoration: InputDecoration(
-                        hintText: 'Add Ingredients Here',
+                        hintText: 'Calories',
                         hintStyle: TextStyle(
                           color: Colors.grey,
                         ),
@@ -223,28 +215,54 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       ),
                     ),
                   ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, top: 5),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Ingredients',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ],
-          ),
-          Positioned(
-            top: 20,
-            left: 10,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: _goBack,
-              color: Colors.white,
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: EdgeInsets.only(bottom: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 10, top: 5),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  width: 200,
+                  child: TextField(
+                    controller: ingredientsController,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.start,
+                    decoration: InputDecoration(
+                      hintText: 'Add Ingredients Here',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            Align(
+              alignment: Alignment.bottomCenter,
               child: ElevatedButton(
                 onPressed: () {
                   Random random = Random();
 
-                  
                   addRecipes(Recipe(
                     name: nameController.text,
                     description: descriptionController.text,
@@ -253,7 +271,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ingredients: ingredientsController.text.split(', '),
                     diet: [],
                   ));
-
+                  _showSaveConfirmationDialog(); // Show the save confirmation dialog
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFFFF785B),
@@ -266,8 +284,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -340,4 +358,3 @@ class CustomPlusIcon extends StatelessWidget {
     );
   }
 }
-

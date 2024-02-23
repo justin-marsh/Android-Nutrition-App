@@ -15,8 +15,6 @@
             </builds>
           </compositeBuild>
         </compositeConfiguration>
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/project_food_fit/android/app" />
         <option name="gradleJvm" value="jbr-17" />
         <option name="modules">
@@ -30,6 +28,7 @@
             <option value="$PROJECT_DIR$/project_food_fit/android/app" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

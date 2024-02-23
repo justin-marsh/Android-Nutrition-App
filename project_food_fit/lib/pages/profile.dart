@@ -196,7 +196,7 @@ class CustomPlusIcon extends StatelessWidget {
         width: 48,
         height: 48,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+        shape: BoxShape.circle,
           color: Color(0xFFFF785B),
         ),
         child: Center(

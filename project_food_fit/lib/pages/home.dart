@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children:[
                         Text(
                           'Hello, $_userName!',
                           style: TextStyle(

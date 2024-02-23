@@ -177,7 +177,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                               String profilePicturePath = snapshot
                                   .data?['profilePicture'];
                               print(profilePicturePath);
-                              if (profilePicturePath == '') {
+                              if (profilePicturePath == "") {
                                 return CircleAvatar(
                                   radius: 90,
                                   backgroundImage: AssetImage(
